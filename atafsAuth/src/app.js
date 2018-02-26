@@ -7,13 +7,15 @@ import LoginForm from './components/LoginForm';
 class App extends Component {
   state = { loggedIn: null };
 
+  // life cicle method automatically invoked
   componentWillMount() {
     firebase.initializeApp({
-      apiKey: 'AIzaSyBtxMY4K6uHxv_2e3GD-FWAD2ACX6lPVRE',
-      authDomain: 'authentication-70a18.firebaseapp.com',
-      databaseURL: 'https://authentication-70a18.firebaseio.com',
-      storageBucket: 'authentication-70a18.appspot.com',
-      messagingSenderId: '682333809338'
+      apiKey: 'AIzaSyAq9-GuJVQCkzQR3vnWfM3h6deMlvNBmow',
+      authDomain: 'atafsauth.firebaseapp.com',
+      databaseURL: 'https://atafsauth.firebaseio.com',
+      projectId: 'atafsauth',
+      storageBucket: 'atafsauth.appspot.com',
+      messagingSenderId: '870714038809'
     });
 
     firebase.auth().onAuthStateChanged((user) => {
