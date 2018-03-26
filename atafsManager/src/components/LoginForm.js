@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import { Card, CardSection, Input, Button } from './common'
+import { View, Text } from 'react-native';
+import { Card, CardSection, Input, Button, Spinner } from './common'
 import { emailChanged, passwordChanged, loginUser } from "../actions";
 
 import { connect } from 'react-redux';
@@ -17,8 +18,34 @@ class LoginForm extends Component {
     onButtonPress() {
         const { email, password } = this.props;
 
-        console.log('onButtonPress email && password', this.props.email, this.props.password)
+        console.log('onButtonPress email && password', email, password)
         this.props.loginUser({ email, password })
+    }
+
+    renderButton() {
+        if (this.props.loading) {
+            return <Spinner size="large" />
+        }
+
+        return (
+            <Button onPress={this.onButtonPress.bind(this)}>
+                Login
+            </Button>
+        )
+    }
+
+    renderError() {
+        console.log('this.props', this.props)
+
+        if (this.props.error) {
+            return (
+                <View style={{ backgroundColor: 'white' }} >
+                    <Text style={styles.errorTextStyle} >
+                        {this.props.error}
+                    </Text>
+                </View>
+            )
+        }
     }
 
     render() {
@@ -41,21 +68,30 @@ class LoginForm extends Component {
                         value={this.props.password}
                     />
                 </CardSection>
+
+                {this.renderError()}
+
                 <CardSection>
-                    <Button onPress={this.onButtonPress.bind(this)}>
-                        Login
-                    </Button>
+                    {this.renderButton()}
                 </CardSection>
             </Card>
         )
     }
 }
 
+const styles = {
+    errorTextStyle: {
+        fontSize: 20,
+        alignSelf: 'center',
+        color: 'red'
+    }
+}
+
 const mapStateToProps = state => {
     console.log('state', state)
-    const { email, password } = state.auth
+    const { email, password, error, loading } = state.auth
 
-    return { email, password }
+    return { email, password, error, loading }
 };
 
 export default connect(mapStateToProps, {
